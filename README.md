@@ -1,7 +1,7 @@
 # Project spaceship
 Simple shoot them up project to learn how to use SDL and play with it.
 
-##Requirements
+##Dependencies
 * SDL Library v1.2.15 (I know the v2 is out, but eh...)
 * SDL_image Library v1.2.12
 
