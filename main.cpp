@@ -9,8 +9,8 @@
 #include "SDL/SDL_image.h"
 #include "SDL/SDL.h"
 
-#include "Spaceship.h"
-#include "const.h"
+#include "src/headers/Spaceship.h"
+#include "src/headers/const.h"
 
 using namespace std;
 
