@@ -55,20 +55,15 @@ void Spaceship::show(SDL_Surface* _screen){
 /**
  * Function initializing the spaceship sprites and images
  */
-void Spaceship::init() {
-    this->_surface = load_image("ressources/spaceship_sprite.png");
+void Spaceship::init() {    
+    this->_surface = load_image("ressources/ships.png");
     
     //Clip range for the top left
-    this->_sprites[0].x = 0;
-    this->_sprites[0].y = 0;
-    this->_sprites[0].w = 150;
-    this->_sprites[0].h = 125;
+    this->_sprites[0].x = 60;
+    this->_sprites[0].y = 319;
+    this->_sprites[0].w = 135;
+    this->_sprites[0].h = 140;
 
-    //Clip range for the top right
-    this->_sprites[1].x = 150;
-    this->_sprites[1].y = 0;
-    this->_sprites[1].w = 150;
-    this->_sprites[1].h = 165;
 }
 
 void Spaceship::clean(){

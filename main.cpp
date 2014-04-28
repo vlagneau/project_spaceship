@@ -69,26 +69,45 @@ int main(int argc, char** argv) {
     Spaceship temp;
     temp.show(screen);
     
+    // Creation of the array of keystates
+    Uint8* keyStates = SDL_GetKeyState(NULL);
+    
     //While the user hasn't quit
     while(quit == false){
         //If there's an event to handle
         if(SDL_PollEvent(&event)){
-            //If a key was pressed
-            if(event.type == SDL_KEYDOWN){
-                //Move the spaceship the proper way
-                switch(event.key.keysym.sym){
-                    case SDLK_UP: temp.move(0, -10, screen); break;
-                    case SDLK_DOWN: temp.move(0, 10, screen); break;
-                    case SDLK_LEFT: temp.move(-10, 0, screen); break;
-                    case SDLK_RIGHT: temp.move(10, 0, screen); break;
-                }
-            }
+//            //If a key was pressed
+//            if(event.type == SDL_KEYDOWN){
+//                //Move the spaceship the proper way
+//                switch(event.key.keysym.sym){
+//                    case SDLK_UP: temp.move(0, -10, screen); break;
+//                    case SDLK_DOWN: temp.move(0, 10, screen); break;
+//                    case SDLK_LEFT: temp.move(-10, 0, screen); break;
+//                    case SDLK_RIGHT: temp.move(10, 0, screen); break;
+//                }
+//            }
 
-            //If the user has Xed out the window
-            else if(event.type == SDL_QUIT){
+            // If the user wants to quit
+            /*else */if(event.type == SDL_QUIT){
                 //Quit the program
                 quit = true;
             }
+        }
+        
+        if(keyStates[SDLK_UP]){
+            temp.move(0, -1, screen);
+        }
+        
+        if(keyStates[SDLK_DOWN]){
+            temp.move(0, 1, screen);
+        }
+        
+        if(keyStates[SDLK_LEFT]){
+            temp.move(-1, 0, screen);
+        }
+        
+        if(keyStates[SDLK_RIGHT]){
+            temp.move(1, 0, screen);
         }
     }
     
