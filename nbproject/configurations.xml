@@ -4,9 +4,10 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>Spaceship.h</itemPath>
-      <itemPath>const.h</itemPath>
-      <itemPath>functions.h</itemPath>
+      <itemPath>src/headers/Spaceship.h</itemPath>
+      <itemPath>src/headers/Timer.h</itemPath>
+      <itemPath>src/headers/const.h</itemPath>
+      <itemPath>src/headers/functions.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -15,8 +16,9 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>Spaceship.cpp</itemPath>
-      <itemPath>functions.cpp</itemPath>
+      <itemPath>src/Spaceship.cpp</itemPath>
+      <itemPath>src/Timer.cpp</itemPath>
+      <itemPath>src/functions.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -40,26 +42,37 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <cTool>
+          <commandlineTool>gcc</commandlineTool>
+        </cTool>
+        <ccTool>
+          <commandlineTool>g++</commandlineTool>
+        </ccTool>
         <linkerTool>
           <linkerLibItems>
             <linkerLibLibItem>mingw32</linkerLibLibItem>
             <linkerLibLibItem>SDLmain</linkerLibLibItem>
             <linkerLibLibItem>SDL.dll</linkerLibLibItem>
             <linkerLibLibItem>SDL_image</linkerLibLibItem>
+            <linkerLibLibItem>SDL_ttf</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="Spaceship.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Spaceship.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="const.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="functions.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="functions.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Spaceship.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/functions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/headers/Spaceship.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/headers/Timer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/headers/const.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/headers/functions.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -82,17 +95,21 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="Spaceship.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Spaceship.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="const.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="functions.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="functions.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Spaceship.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Timer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/functions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/headers/Spaceship.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/headers/Timer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/headers/const.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/headers/functions.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

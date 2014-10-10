@@ -43,11 +43,11 @@ SDL_Surface *load_image(std::string _filename){
 
 /**
  * Function applying a source surface onto a destination surface using the coordonates given
- * @param _x
- * @param _y
- * @param _source
- * @param _destination
- * @param _clip
+ * @param _x x position of the new offset
+ * @param _y y position of the new offset
+ * @param _source source surface
+ * @param _destination destination surface
+ * @param _clip image that needs to be applied
  */
 void apply_surface(int _x, int _y, SDL_Surface* _source, SDL_Surface* _destination, SDL_Rect* _clip){
     //Holds offsets
