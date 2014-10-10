@@ -46,10 +46,9 @@ void Spaceship::handle_events() {
  * @param _screen surface that will have the spaceship blitted on
  */
 void Spaceship::show(SDL_Surface* _screen){
-    SDL_FillRect(_screen, &_screen->clip_rect, SDL_MapRGB(_screen->format, 0, 0, 0));
     apply_surface(this->_position.x, this->_position.y, this->_surface, _screen, &(this->_sprites[0]));
     
-    SDL_Flip(_screen);
+    //SDL_Flip(_screen);
 }
 
 /**
@@ -90,7 +89,7 @@ void Spaceship::move(int _x_variation, int _y_variation, SDL_Surface* _screen){
         this->_position.y = new_y;
     }
     
-    this->show(_screen);
+//    this->show(_screen);
 }
 
 /*

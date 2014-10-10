@@ -19,7 +19,7 @@ using namespace std;
 
 // The screen of the game
 SDL_Surface *screen = NULL;
-SDL_Surface *seconds = NULL;
+SDL_Surface *debug = NULL;
 
 //The event structure
 SDL_Event event;
@@ -29,9 +29,6 @@ TTF_Font *debugFont = NULL;
 
 //The color of the font
 SDL_Color debugTextColor = {0xF0, 0xFF, 0xF0};
-
-// Setting for the number of frames per second
-const int SETTING_FRAMES_PER_SECOND = 24;
 
 /**
  * Initialization function for the SDL, title and window
@@ -49,7 +46,7 @@ bool init(){
     }
     
     // Open the debug font
-    debugFont = TTF_OpenFont("ressources/PixelScreen.ttf", 14);
+    debugFont = TTF_OpenFont("ressources/PixelScreen.ttf", 18);
 
     //Set up the screen
     screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
@@ -81,14 +78,12 @@ int main(int argc, char** argv) {
     // boolean indicating that the user wants to quit
     bool quit = false;
     
-    Timer timerTest;
-    timerTest.start();
-    
     // FRAME RATE
-    // Current number of frames
-    int frames = 0;
-    bool lock_fps = false;
-    Timer fps_timer;
+    int frames = 0; // current number of frames
+    bool fpsCap = true; // boolean indicating that the frame rate is capped
+    Timer fpsTimer;
+    Timer updateDebug;
+    int frame_rate = 0;
     
     // initialization
     if(init() == false){
@@ -98,30 +93,25 @@ int main(int argc, char** argv) {
     //Fill the screen black
     SDL_FillRect(screen, &screen->clip_rect, SDL_MapRGB(screen->format, 0, 0, 0));
     
-    // Creation of a spaceship and displaying
+    // Creation of a spaceship
     Spaceship hero;
-    hero.show(screen);
     
     // Creation of the array of keystates
     Uint8* keyStates = SDL_GetKeyState(NULL);
     
+    // Starting of the timer used to update the debug data
+    updateDebug.start();
+    
+    // Starting of the timer used to cap the frame rate
+    fpsTimer.start();
+    
     //While the user hasn't quit
     while(quit == false){
+        SDL_FillRect(screen, &screen->clip_rect, SDL_MapRGB(screen->format, 0, 0, 0));
+        
         //If there's an event to handle
-        if(SDL_PollEvent(&event)){
-//            //If a key was pressed
-//            if(event.type == SDL_KEYDOWN){
-//                //Move the spaceship the proper way
-//                switch(event.key.keysym.sym){
-//                    case SDLK_UP: temp.move(0, -10, screen); break;
-//                    case SDLK_DOWN: temp.move(0, 10, screen); break;
-//                    case SDLK_LEFT: temp.move(-10, 0, screen); break;
-//                    case SDLK_RIGHT: temp.move(10, 0, screen); break;
-//                }
-//            }
-
-            // If the user wants to quit
-            /*else */if(event.type == SDL_QUIT){
+        if(SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
                 //Quit the program
                 quit = true;
             }
@@ -143,24 +133,44 @@ int main(int argc, char** argv) {
             hero.move(1, 0, screen);
         }
         
-        // Timer tests
-        //*
-        std::stringstream time;
-        time << "Timer: " << timerTest.get_ticks() / 1000.f;
+        // Increment of the frame counter
+        frames++;
+        
+        // In the case of the cap of frame rate, we wait for the time to be 
+        // 1 second / number of frames per seconds required for the total time 
+        // of the frame
+        
+        if(fpsCap && fpsTimer.get_ticks() < (1000 / SETTING_FRAMES_PER_SECOND)){
+            SDL_Delay((1000 / SETTING_FRAMES_PER_SECOND) - fpsTimer.get_ticks());
+        }
+        
+        if (updateDebug.get_ticks() % DEBUG_REFRESH_RATE == 0) {
+            frame_rate = frames / (fpsTimer.get_ticks() / 1000.f);
+            
+            // Restart of the debug timer
+            updateDebug.start();
+        }
+        
+         // Creation of the debug data
+        std::stringstream debugDataStream;
+        debugDataStream << "FPS : " << frame_rate;
+
         //Render the time surface
-        seconds = TTF_RenderText_Solid(debugFont, time.str().c_str(), debugTextColor);
-        //Apply the time surface
-        apply_surface(0, 0, seconds, screen);
+        debug = TTF_RenderText_Solid(debugFont, debugDataStream.str().c_str(), debugTextColor);
+        apply_surface(0, 0, debug, screen);
         //Free the time surface
-        SDL_FreeSurface(seconds);
+        SDL_FreeSurface(debug);
+
+        // displaying
+        hero.show(screen);
+        
         //Update the screen
         if(SDL_Flip(screen) == -1){
             return 1;
         }
-        //*/
     }
     
-    timerTest.stop();
+    fpsTimer.stop();
     
     //Free the images and quit SDL
     hero.clean();
