@@ -14,7 +14,7 @@ const int SCREEN_HEIGHT = 480;
 const int SCREEN_BPP = 32;
 
 // Setting for the number of frames per second
-const int SETTING_FRAMES_PER_SECOND = 24;
+const int SETTING_FRAMES_PER_SECOND = 30;
 
 // Debug settings
 const int DEBUG_REFRESH_RATE = 500;

@@ -83,6 +83,7 @@ int main(int argc, char** argv) {
     bool fpsCap = true; // boolean indicating that the frame rate is capped
     Timer fpsTimer;
     Timer updateDebug;
+    Timer timerTemp;
     int frame_rate = 0;
     
     // initialization
@@ -107,6 +108,7 @@ int main(int argc, char** argv) {
     
     //While the user hasn't quit
     while(quit == false){
+        timerTemp.start();
         SDL_FillRect(screen, &screen->clip_rect, SDL_MapRGB(screen->format, 0, 0, 0));
         
         //If there's an event to handle
@@ -118,19 +120,19 @@ int main(int argc, char** argv) {
         }
         
         if(keyStates[SDLK_UP]){
-            hero.move(0, -1, screen);
+            hero.move(0, -16, screen);
         }
         
         if(keyStates[SDLK_DOWN]){
-            hero.move(0, 1, screen);
+            hero.move(0, 16, screen);
         }
         
         if(keyStates[SDLK_LEFT]){
-            hero.move(-1, 0, screen);
+            hero.move(-16, 0, screen);
         }
         
         if(keyStates[SDLK_RIGHT]){
-            hero.move(1, 0, screen);
+            hero.move(16, 0, screen);
         }
         
         // Increment of the frame counter
@@ -139,9 +141,8 @@ int main(int argc, char** argv) {
         // In the case of the cap of frame rate, we wait for the time to be 
         // 1 second / number of frames per seconds required for the total time 
         // of the frame
-        
-        if(fpsCap && fpsTimer.get_ticks() < (1000 / SETTING_FRAMES_PER_SECOND)){
-            SDL_Delay((1000 / SETTING_FRAMES_PER_SECOND) - fpsTimer.get_ticks());
+        if(fpsCap && timerTemp.get_ticks() < (1000 / SETTING_FRAMES_PER_SECOND)){
+            SDL_Delay((1000 / SETTING_FRAMES_PER_SECOND) - timerTemp.get_ticks());
         }
         
         if (updateDebug.get_ticks() % DEBUG_REFRESH_RATE == 0) {
@@ -161,7 +162,7 @@ int main(int argc, char** argv) {
         //Free the time surface
         SDL_FreeSurface(debug);
 
-        // displaying
+        // displaying the items
         hero.show(screen);
         
         //Update the screen
@@ -170,6 +171,7 @@ int main(int argc, char** argv) {
         }
     }
     
+    timerTemp.stop();
     fpsTimer.stop();
     
     //Free the images and quit SDL
