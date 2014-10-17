@@ -94,9 +94,9 @@ void Spaceship::init() {
     this->_surface = load_image("ressources/ships.png");
     
     //Clip range for the top left
-    this->_sprites[0].x = 60;
+    this->_sprites[0].x = 62;
     this->_sprites[0].y = 319;
-    this->_sprites[0].w = 133;
+    this->_sprites[0].w = 131;
     this->_sprites[0].h = 134;
 
 }
@@ -111,24 +111,6 @@ void Spaceship::clean(){
  * the x and y axis and set its new position
  */
 void Spaceship::move(){
-    /*
-    int new_x = this->_x + x_variation;
-    int new_y = this->_y + y_variation;
-    
-    if(new_x < 0){
-        this->_x = 0;
-    }
-    else if (new_x <= (SCREEN_WIDTH - this->_width)){
-        this->_x = new_x;
-    }
-    
-    if(new_y < 0){
-        this->_y = 0;
-    }
-    else if (new_y <= (SCREEN_HEIGHT - this->_height)){
-        this->_y = new_y;
-    }
-    //*/
     int new_x = this->_x;
     int new_y = this->_y;
     

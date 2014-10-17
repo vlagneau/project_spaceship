@@ -59,7 +59,6 @@ bool init() {
     //Set the window caption
     SDL_WM_SetCaption("Project Spaceship", NULL);
 
-    //If everything initialized fine
     return true;
 }
 
@@ -81,7 +80,6 @@ int main(int argc, char** argv) {
 
     // FRAME RATE
     int frames = 0; // current number of frames
-    bool fpsCap = true; // boolean indicating that the frame rate is capped
     Timer fpsTimer;
     Timer timerTemp;
     int frame_rate = 0;
@@ -94,11 +92,7 @@ int main(int argc, char** argv) {
     //Fill the screen black
     SDL_FillRect(screen, &screen->clip_rect, SDL_MapRGB(screen->format, 0, 0, 0));
 
-    // Creation of a spaceship
     Spaceship hero;
-
-    // Creation of the array of keystates
-    Uint8* keyStates = SDL_GetKeyState(NULL);
 
     // Starting of the timer used to cap the frame rate
     fpsTimer.start();
@@ -117,25 +111,6 @@ int main(int argc, char** argv) {
                 quit = true;
             }
         }
-        
-        
-        /*
-        if (keyStates[SDLK_UP]) {
-            hero.move(0, -15, screen);
-        }
-
-        if (keyStates[SDLK_DOWN]) {
-            hero.move(0, 15, screen);
-        }
-
-        if (keyStates[SDLK_LEFT]) {
-            hero.move(-15, 0, screen);
-        }
-
-        if (keyStates[SDLK_RIGHT]) {
-            hero.move(15, 0, screen);
-        }
-        //*/
         // -------------------------
         
         // ---- GAME LOGIC ----
@@ -143,23 +118,14 @@ int main(int argc, char** argv) {
         // --------------------
         
         // ---- RENDERING ----
-        // Increment of the frame counter
-        frames++;
-
-        // In the case of the cap of frame rate, we wait for the time to be 
-        // 1 second / number of frames per seconds required for the total time 
-        // of the frame
-        if (fpsCap && timerTemp.get_ticks() < (1000 / SETTING_FRAMES_PER_SECOND)) {
-            SDL_Delay((1000 / SETTING_FRAMES_PER_SECOND) - timerTemp.get_ticks());
-        }
-
         // Reset the screen in black
         SDL_FillRect(screen, &screen->clip_rect, SDL_MapRGB(screen->format, 0, 0, 0));
         
         // displaying the items
         hero.show(screen);
         
-        // Calculation of the frame rate
+         // Calculation of the frame rate
+        frames++;
         frame_rate = frames / (fpsTimer.get_ticks() / 1000.f);
 
         // Creation of the debug data
@@ -169,12 +135,17 @@ int main(int argc, char** argv) {
         //Render the time surface
         debug = TTF_RenderText_Solid(debugFont, debugDataStream.str().c_str(), debugTextColor);
         apply_surface(0, 0, debug, screen);
-        //Free the time surface
         SDL_FreeSurface(debug);
 
         //Update the screen
         if (SDL_Flip(screen) == -1) {
             return 1;
+        }
+        
+        // We wait for the time to be 1 second / number of frames per seconds 
+        // required for the total time of the frame
+        if (timerTemp.get_ticks() < (1000 / SETTING_FRAMES_PER_SECOND)) {
+            SDL_Delay((1000 / SETTING_FRAMES_PER_SECOND) - timerTemp.get_ticks());
         }
         // -------------------
     }
