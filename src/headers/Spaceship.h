@@ -12,28 +12,20 @@
 #include "functions.h"
 
 class Spaceship {
-public:
-    // constructors
-    Spaceship();
-    Spaceship(int _x, int _y);
-    Spaceship(const Spaceship& orig);
-    
-    // events handler
-    void handle_events();
-    
-    // display of the spaceship
-    void show(SDL_Surface* _screen);
-    
-    // clean of the components
-    void clean();
-    
-    // change the position of the spaceship
-    void move(int _x_variation, int _y_variation, SDL_Surface* _screen);
-    
 //    virtual ~Spaceship();
 private:
-    // position of the spaceship
-    SDL_Rect _position;
+    // Position of the spaceship
+    int _x;
+    int _y;
+    
+    // Velocity of the spaceship
+    int _xVel;
+    int _yVel;
+    
+    // Size of the spaceship
+    int _width;
+    int _height;
+    
     // surface of the spaceship
     SDL_Surface* _surface;
     // sprites of the spaceship
@@ -41,6 +33,24 @@ private:
     
     // function initializing the spaceship (sprites, ...)
     void init();
+    
+public:
+    // constructors
+    Spaceship();
+    Spaceship(int x, int y);
+    Spaceship(const Spaceship& orig);
+    
+    // events handler
+    void handle_events(SDL_Event event);
+    
+    // display of the spaceship
+    void show(SDL_Surface* screen);
+    
+    // clean of the components
+    void clean();
+    
+    // change the position of the spaceship
+    void move();
 };
 
 #endif	/* SPACESHIP_H */

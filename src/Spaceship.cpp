@@ -15,11 +15,17 @@ Spaceship::Spaceship() {
     // initialization of the ship
     this->init();
     
+    // Initialization of the width and height
+    this->_height = this->_sprites[0].h;
+    this->_width = this->_sprites[0].w;
+    
     // initiatlization of the position
-    this->_position.x = (SCREEN_WIDTH - this->_sprites[0].w) / 2;
-    this->_position.y = (SCREEN_HEIGHT - this->_sprites[0].h) / 2;
-    this->_position.h = this->_sprites[0].h;
-    this->_position.w = this->_sprites[0].w;
+    this->_x = (SCREEN_WIDTH - this->_width) / 2;
+    this->_y = (SCREEN_HEIGHT - this->_height) / 2;
+    
+    // Initialization of the velocity
+    this->_xVel = 0;
+    this->_yVel = 0;
 }
 
 /**
@@ -27,17 +33,49 @@ Spaceship::Spaceship() {
  * @param _x position on the x axis
  * @param _y position on the y axis
  */
-Spaceship::Spaceship(int _x, int _y) {
+Spaceship::Spaceship(int x, int y) {
     Spaceship();
     
-    this->_position.x = _x;
-    this->_position.y = _y;
+    this->_x = x;
+    this->_y = y;
 }
 
 Spaceship::Spaceship(const Spaceship& orig) {
 }
 
-void Spaceship::handle_events() {
+/**
+ * Method that handles all the external events that can happen to the spaceship
+ */
+void Spaceship::handle_events(SDL_Event event) {
+    // If a key is pressed, we adjust the velocity of the spaceship
+    if(event.type == SDL_KEYDOWN){
+        switch(event.key.keysym.sym) {
+            case SDLK_UP: this->_yVel -= 10;
+                break;
+            case SDLK_DOWN: this->_yVel += 10;
+                break;
+            case SDLK_LEFT: this->_xVel -= 10;
+                break;
+            case SDLK_RIGHT: this->_xVel += 10;
+                break;
+        }
+    }
+    
+    //*
+    // If a key is released, we also adjust the velocity
+    else if(event.type == SDL_KEYUP){
+        switch(event.key.keysym.sym) {
+            case SDLK_UP: this->_yVel += 10;
+                break;
+            case SDLK_DOWN: this->_yVel -= 10;
+                break;
+            case SDLK_LEFT: this->_xVel += 10;
+                break;
+            case SDLK_RIGHT: this->_xVel -= 10;
+                break;
+        }
+    } 
+    //*/
 }
 
 /**
@@ -45,10 +83,8 @@ void Spaceship::handle_events() {
  * passed in the parameters, by reseting the surface before
  * @param _screen surface that will have the spaceship blitted on
  */
-void Spaceship::show(SDL_Surface* _screen){
-    apply_surface(this->_position.x, this->_position.y, this->_surface, _screen, &(this->_sprites[0]));
-    
-    //SDL_Flip(_screen);
+void Spaceship::show(SDL_Surface* screen){
+    apply_surface(this->_x, this->_y, this->_surface, screen, &(this->_sprites[0]));
 }
 
 /**
@@ -60,8 +96,8 @@ void Spaceship::init() {
     //Clip range for the top left
     this->_sprites[0].x = 60;
     this->_sprites[0].y = 319;
-    this->_sprites[0].w = 135;
-    this->_sprites[0].h = 140;
+    this->_sprites[0].w = 133;
+    this->_sprites[0].h = 134;
 
 }
 
@@ -70,26 +106,57 @@ void Spaceship::clean(){
 }
 
 
-// change the position of the spaceship
-void Spaceship::move(int _x_variation, int _y_variation, SDL_Surface* _screen){
-    int new_x = this->_position.x + _x_variation;
-    int new_y = this->_position.y + _y_variation;
+/*
+ * Method that use the current velocity of the ship to move it on
+ * the x and y axis and set its new position
+ */
+void Spaceship::move(){
+    /*
+    int new_x = this->_x + x_variation;
+    int new_y = this->_y + y_variation;
     
     if(new_x < 0){
-        this->_position.x = 0;
+        this->_x = 0;
     }
-    else if (new_x <= (SCREEN_WIDTH - this->_position.w)){
-        this->_position.x = new_x;
+    else if (new_x <= (SCREEN_WIDTH - this->_width)){
+        this->_x = new_x;
     }
     
     if(new_y < 0){
-        this->_position.y = 0;
+        this->_y = 0;
     }
-    else if (new_y <= (SCREEN_HEIGHT - this->_position.h)){
-        this->_position.y = new_y;
+    else if (new_y <= (SCREEN_HEIGHT - this->_height)){
+        this->_y = new_y;
+    }
+    //*/
+    int new_x = this->_x;
+    int new_y = this->_y;
+    
+    // Adding the velocity to the current x position
+    new_x += this->_xVel;
+    
+    // Protection against the fact that the spaceship goes out of the screen
+    if(new_x < 0){
+        new_x = 0;
+    }
+    else if(new_x > (SCREEN_WIDTH - this->_width)){
+        new_x = SCREEN_WIDTH - this->_width;
     }
     
-//    this->show(_screen);
+    // Adding the velocity to the current y position
+    new_y += this->_yVel;
+    
+    // Protection against the fact that the spaceship goes out of the screen
+    if(new_y < 0){
+        new_y = 0;
+    }
+    else if(new_y > (SCREEN_HEIGHT - this->_height)){
+        new_y = SCREEN_HEIGHT - this->_height;
+    }
+    
+    // Ppdating of the current position of the spaceship
+    this->_x = new_x;
+    this->_y = new_y;
 }
 
 /*
